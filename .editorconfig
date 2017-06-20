@@ -1,0 +1,11 @@
+
+
+# EditorConfig is awesome: http://EditorConfig.org
+
+# top-most EditorConfig file
+root = true
+
+# Tab indentation (no size specified)
+[*.{cs,config}]
+indent_style = tab
+
