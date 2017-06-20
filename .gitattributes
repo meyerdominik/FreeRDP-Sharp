@@ -1,0 +1,17 @@
+# Autodetect text files
+* text=auto
+
+
+# Definitively text files 
+*.txt text
+*.cs text
+*.csproj text
+
+*.config text
+
+# Declare files that will always have CRLF line endings on checkout.
+*.sln text eol=crlf
+
+# Ensure those won't be messed up with
+*.jpg binary
+*.data binary
