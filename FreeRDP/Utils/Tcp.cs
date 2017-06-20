@@ -24,10 +24,10 @@ namespace FreeRDP
 {
 	public unsafe static class Tcp
 	{
-		[DllImport("libfreerdp", CallingConvention = CallingConvention.Cdecl)]
+		[DllImport("libfreerdp-utils", CallingConvention = CallingConvention.Cdecl)]
 		public static extern int freerdp_wsa_startup();
 
-		[DllImport("libfreerdp", CallingConvention = CallingConvention.Cdecl)]
+		[DllImport("libfreerdp-utils", CallingConvention = CallingConvention.Cdecl)]
 		public static extern int freerdp_wsa_cleanup();
 
 		public static int WSAStartup()

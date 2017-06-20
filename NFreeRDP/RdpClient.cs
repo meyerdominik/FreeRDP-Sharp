@@ -130,7 +130,7 @@ namespace NFreeRDP
 		{
 			while (procRunning)
 			{
-				rdp.CheckFileDescriptor();
+				if (!rdp.CheckFileDescriptor()) break;
 				Thread.Sleep(10);
 			}
 		}

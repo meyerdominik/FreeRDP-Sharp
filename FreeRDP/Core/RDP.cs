@@ -25,47 +25,47 @@ namespace FreeRDP
 {	
 	public unsafe class RDP
 	{		
-		[DllImport("libfreerdp", CallingConvention = CallingConvention.Cdecl)]
+		[DllImport("libfreerdp-core", CallingConvention = CallingConvention.Cdecl)]
 		public static extern void freerdp_context_new(freerdp* instance);
 
-		[DllImport("libfreerdp", CallingConvention = CallingConvention.Cdecl)]
+		[DllImport("libfreerdp-core", CallingConvention = CallingConvention.Cdecl)]
 		public static extern void freerdp_context_free(freerdp* instance);
 
-		[DllImport("libfreerdp", CallingConvention = CallingConvention.Cdecl)]
+		[DllImport("libfreerdp-core", CallingConvention = CallingConvention.Cdecl)]
 		public static extern int freerdp_connect(freerdp* instance);
 
-		[DllImport("libfreerdp", CallingConvention = CallingConvention.Cdecl)]
+		[DllImport("libfreerdp-core", CallingConvention = CallingConvention.Cdecl)]
 		public static extern int freerdp_disconnect(freerdp* instance);
 
-		[DllImport("libfreerdp", CallingConvention = CallingConvention.Cdecl)]
+		[DllImport("libfreerdp-core", CallingConvention = CallingConvention.Cdecl)]
 		public static extern int freerdp_check_fds(freerdp* instance);
 
-		[DllImport("libfreerdp", CallingConvention = CallingConvention.Cdecl)]
+		[DllImport("libfreerdp-core", CallingConvention = CallingConvention.Cdecl)]
 		public static extern freerdp* freerdp_new();
 
-		[DllImport("libfreerdp", CallingConvention = CallingConvention.Cdecl)]
+		[DllImport("libfreerdp-core", CallingConvention = CallingConvention.Cdecl)]
 		public static extern void freerdp_free(freerdp* instance);
 
-		[DllImport("libfreerdp", CallingConvention = CallingConvention.Cdecl)]
+		[DllImport("libfreerdp-core", CallingConvention = CallingConvention.Cdecl)]
 		public static extern void freerdp_input_send_synchronize_event(IntPtr input, UInt32 flags);
 
-		[DllImport("libfreerdp", CallingConvention = CallingConvention.Cdecl)]
+		[DllImport("libfreerdp-core", CallingConvention = CallingConvention.Cdecl)]
 		public static extern void freerdp_input_send_keyboard_event(IntPtr input, UInt16 flags, UInt16 code);
 
-		[DllImport("libfreerdp", CallingConvention = CallingConvention.Cdecl)]
+		[DllImport("libfreerdp-core", CallingConvention = CallingConvention.Cdecl)]
 		public static extern void freerdp_input_send_unicode_keyboard_event(IntPtr input, UInt16 flags, UInt16 code);
 
-		[DllImport("libfreerdp", CallingConvention = CallingConvention.Cdecl)]
+		[DllImport("libfreerdp-core", CallingConvention = CallingConvention.Cdecl)]
 		public static extern void freerdp_input_send_mouse_event(IntPtr input, UInt16 flags, UInt16 x, UInt16 y);
 
-		[DllImport("libfreerdp", CallingConvention = CallingConvention.Cdecl)]
+		[DllImport("libfreerdp-core", CallingConvention = CallingConvention.Cdecl)]
 		public static extern void freerdp_input_send_extended_mouse_event(IntPtr input, UInt16 flags, UInt16 x, UInt16 y);
 
 		private static int winsock = -1;
 
-		public int Port { get { return (int) settings->port; } set { settings->port = (UInt32) value; } }
-		public int Width { get { return (int) settings->width; } set { settings->width = (UInt32) value; } }
-		public int Height { get { return (int) settings->height; } set { settings->height = (UInt32) value; } }
+		public int Port { get { return (int) settings->ServerPort; } set { settings->ServerPort = (UInt32) value; } }
+		public int Width { get { return (int) settings->DesktopWidth; } set { settings->DesktopWidth = (UInt32) value; } }
+		public int Height { get { return (int) settings->DesktopHeight; } set { settings->DesktopHeight = (UInt32) value; } }
 		
 		private freerdp* handle;
 		private IntPtr input;
@@ -92,7 +92,10 @@ namespace FreeRDP
 		public RDP()
 		{
 			if (winsock == -1)
+			{
 				winsock = Tcp.WSAStartup();
+			}
+				
 
 			handle = freerdp_new();
 			
@@ -112,7 +115,9 @@ namespace FreeRDP
 			
 			handle->Authenticate = Marshal.GetFunctionPointerForDelegate(hAuthenticate);
 			handle->VerifyCertificate = Marshal.GetFunctionPointerForDelegate(hVerifyCertificate);
-			
+
+			//handle->ContextSize++;// = UIntPtr.Add(handle->ContextSize, 1);
+
 			freerdp_context_new(handle);
 		}
 		
@@ -129,18 +134,6 @@ namespace FreeRDP
 		public void SetPrimaryUpdateInterface(IPrimaryUpdate iPrimaryUpdate)
 		{
 			this.iPrimaryUpdate = iPrimaryUpdate;
-		}
-		
-		private IntPtr GetNativeAnsiString(string str)
-		{
-			ASCIIEncoding strEncoder = new ASCIIEncoding();
-			
-			int size = strEncoder.GetByteCount(str);
-			IntPtr pStr = Memory.Zalloc(size + 1);
-			byte[] buffer = strEncoder.GetBytes(str);
-			Marshal.Copy(buffer, 0, pStr, size);
-			
-			return pStr;
 		}
 		
 		void ContextNew(freerdp* instance, rdpContext* context)
@@ -179,16 +172,16 @@ namespace FreeRDP
 				primary.RegisterInterface(iPrimaryUpdate);
 			}
 			
-			settings->rfxCodec = 1;
-			settings->rfxCodecOnly = 1;
-			settings->fastpathOutput = 1;
-			settings->colorDepth = 32;
-			settings->frameAcknowledge = 0;
-			settings->performanceFlags = 0;
-			settings->largePointer = 1;
-			settings->glyphCache = 0;
-			settings->bitmapCache = 0;
-			settings->offscreenBitmapCache = 0;
+			//settings->RemoteFxCodec = 1;
+			//settings->RemoteFxOnly = 1;
+			//settings->FastPathOutput = 1;
+			//settings->ColorDepth = 32;
+			//settings->FrameAcknowledge = 0;
+			//settings->PerformanceFlags = 0;
+			//settings->LargePointerFlag = 1;
+			//settings->GlyphSupportLevel = 0;
+			//settings->BitmapCacheEnabled = 0;
+			//settings->OffscreenSupportLevel = 0;
 			
 			return true;
 		}
@@ -201,25 +194,26 @@ namespace FreeRDP
 		
 		public bool Connect(string hostname, int port, string username, string domain, string password)
 		{
-			settings->port = (uint) port;
+			settings->ServerPort = (uint) port;
 			
 			Console.WriteLine("hostname:{0} username:{1} width:{2} height:{3} port:{4}",
-				hostname, username, settings->width, settings->height, settings->port);
+				hostname, username, settings->DesktopWidth, settings->DesktopHeight, settings->ServerPort);
 			
-			settings->ignoreCertificate = 1;
+			//settings->IgnoreCertificate = 1;
 			
-			settings->hostname = GetNativeAnsiString(hostname);
-			settings->username = GetNativeAnsiString(username);
+			settings->ServerHostname = Marshal.StringToHGlobalAnsi(hostname);
+			settings->Username = Marshal.StringToHGlobalAnsi(username);
 			
 			if (domain.Length > 1)
-				settings->domain = GetNativeAnsiString(domain);
+				settings->Domain = Marshal.StringToHGlobalAnsi(domain);
 			
 			if (password.Length > 1)
-				settings->password = GetNativeAnsiString(password);
+				settings->Password = Marshal.StringToHGlobalAnsi(password);
 			else
-				settings->authentication = 0;
-			
-			return ((freerdp_connect(handle) == 0) ? false : true);
+				settings->Authentication = 0;
+
+			var freerdpConnect = freerdp_connect(handle);
+			return freerdpConnect != 0;
 		}
 		
 		public bool Disconnect()

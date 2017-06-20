@@ -45,7 +45,6 @@
     <Compile Include="Codec\SurfaceBitsCommand.cs" />
     <Compile Include="Codec\SurfaceCommand.cs" />
     <Compile Include="Core\RDP.cs" />
-    <Compile Include="Utils\Memory.cs" />
     <Compile Include="Core\Settings.cs" />
     <Compile Include="Core\Context.cs" />
     <Compile Include="GDI\GDI.cs" />
