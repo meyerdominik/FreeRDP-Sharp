@@ -23,7 +23,7 @@ namespace NFreeRDP
 			settings.port = 3389;
 			settings.hostname = txtHostname.Text;
 			settings.username = txtUsername.Text;
-			settings.domain = "";
+			settings.domain = "upc";
 			settings.password = txtPassword.Text;
 
 			return settings;

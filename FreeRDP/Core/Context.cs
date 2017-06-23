@@ -31,7 +31,8 @@ namespace FreeRDP
 		
 		[FieldOffset(16*8)]public int argc;
 		[FieldOffset(17*8)]public IntPtr argv;
-		[FieldOffset(18*8)]public fixed UInt32 paddingB[32-18];
+		[FieldOffset(18*8)]public IntPtr pubSub;
+		[FieldOffset(19*8)]public fixed UInt32 paddingB[32-19];
 		
 		[FieldOffset(32*8)]public IntPtr rdp;
 		[FieldOffset(33*8)]public IntPtr gdi;

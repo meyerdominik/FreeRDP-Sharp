@@ -20,63 +20,21 @@
 using System;
 using FreeRDP;
 using System.Threading;
+using System.Windows.Forms;
+using FreeRDP.Core;
 
 namespace NFreeRDP
 {
-	public unsafe class RdpClient : IUpdate, IPrimaryUpdate
+	public unsafe class RdpPaintUpdates : IUpdate, IPrimaryUpdate
 	{
-		private RDP rdp;
-		private ConnectionSettings settings;
-		
-		private Thread thread;
-		private static bool procRunning = true;
-		
-		/**
-		 * Instantiate RDP and Thread
-		 */ 
-		public RdpClient()
-		{
-			rdp = new RDP();
-			thread = new Thread(() => ThreadProc(rdp));
-		}
-		
-		/**
-		 * Connect to FreeRDP server, start thread
-		 */ 
-		public void Connect(ConnectionSettings settings)
-		{
-			rdp.SetUpdateInterface(this);
-			rdp.SetPrimaryUpdateInterface(this);
+		private readonly RDP _rdp;
 
-			this.settings = settings;
+		public RdpPaintUpdates(RDP rdp)
+		{
+			if (rdp == null) throw new ArgumentNullException(nameof(rdp));
+			_rdp = rdp;
+		}
 
-			rdp.Connect(settings.hostname, settings.port,
-				settings.username, settings.domain, settings.password);
-			
-			procRunning = true;
-			thread.Start();
-		}
-		
-		/**
-		 * Disconnect from FreeRDP server, stop thread
-		 */ 
-		public void Disconnect()
-		{
-			rdp.Disconnect();
-			procRunning = false;
-			thread = new Thread(() => ThreadProc(rdp));
-		}
-		
-		public void OnMouseEvent(UInt16 pointerFlags, UInt16 x, UInt16 y)
-		{
-			rdp.SendInputMouseEvent(pointerFlags, x, y);
-		}
-		
-		public void OnKeyboardEvent(UInt16 keyboardFlags, UInt16 keyCode)
-		{
-			rdp.SendInputKeyboardEvent(keyboardFlags, keyCode);
-		}
-		
 		public void BeginPaint(rdpContext* context) { }
 		public void EndPaint(rdpContext* context) { }
 		public void SetBounds(rdpContext* context, rdpBounds* bounds) { }
@@ -125,15 +83,6 @@ namespace NFreeRDP
 		public void PolygonCB(rdpContext* context, PolygonCBOrder* polygon_cb) { }
 		public void EllipseSC(rdpContext* context, EllipseSCOrder* ellipse_sc) { }
 		public void EllipseCB(rdpContext* context, EllipseCBOrder* ellipse_cb) { }
-		
-		static void ThreadProc(RDP rdp)
-		{
-			while (procRunning)
-			{
-				if (!rdp.CheckFileDescriptor()) break;
-				Thread.Sleep(10);
-			}
-		}
 	}
 }
 

@@ -36,5 +36,12 @@ namespace FreeRDP
 		public IntPtr ExtendedMouseEvent;
 		public fixed UInt32 paddingB[32-21];
 	};
+
+	public enum KeyboardFlags : ushort
+	{
+		KBD_FLAGS_EXTENDED	=	0x0100,
+		KBD_FLAGS_DOWN		=	0x4000,
+		KBD_FLAGS_RELEASE	=	0x8000,
+	}
 }
 
