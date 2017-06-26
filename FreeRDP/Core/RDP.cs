@@ -291,7 +291,6 @@ namespace FreeRDP.Core
 		{
 			Debug.Write("TerminateEvent");
 			_connected = false;
-			DisposeContext();
 			OnTerminated();
 		}
 

@@ -1,0 +1,26 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>FreeRDP-Sharp</id>
+    <version>$version$</version>
+    <title>FreeRDP-Sharp</title>
+    <authors>$author$</authors>
+    <owners>$author$</owners>
+    <licenseUrl>https://github.com/publee/FreeRDP-Sharp/blob/master/LICENSE</licenseUrl>
+    <projectUrl>https://github.com/publee/FreeRDP-Sharp</projectUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>$description$</description>
+    <releaseNotes>Make it working with FreeRDP stable-1.1 native libraries.</releaseNotes>
+    <tags>FreeRDP</tags>
+    <dependencies>
+      <group targetFramework=".NETFramework4.0">
+        <dependency id="FreeRDP-Sharp.Native" version="[1.1,1.2)" />
+      </group>
+    </dependencies>
+  </metadata>
+  <files>
+    <!-- .NET v4.0 -->
+    <file src="..\bin\$configuration$\FreeRDP.dll" target="lib\net40\" />
+    <file src="..\bin\$configuration$\FreeRDP.pdb" target="lib\net40\" />
+  </files>
+</package>

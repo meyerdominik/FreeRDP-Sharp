@@ -75,7 +75,7 @@
 			this.btnConnect.Location = new System.Drawing.Point(220, 106);
 			this.btnConnect.Name = "btnConnect";
 			this.btnConnect.Size = new System.Drawing.Size(75, 23);
-			this.btnConnect.TabIndex = 4;
+			this.btnConnect.TabIndex = 5;
 			this.btnConnect.Text = "Connect";
 			this.btnConnect.UseVisualStyleBackColor = true;
 			// 
@@ -92,8 +92,9 @@
 			// 
 			this.txtPassword.Location = new System.Drawing.Point(104, 80);
 			this.txtPassword.Name = "txtPassword";
+			this.txtPassword.PasswordChar = '*';
 			this.txtPassword.Size = new System.Drawing.Size(191, 20);
-			this.txtPassword.TabIndex = 6;
+			this.txtPassword.TabIndex = 4;
 			// 
 			// ConnectionDialog
 			// 

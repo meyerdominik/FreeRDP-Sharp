@@ -5,9 +5,9 @@ using System.Runtime.CompilerServices;
 // Change them to the values specific to your project.
 
 [assembly: AssemblyTitle("FreeRDP")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyDescription("C# wrapper around native FreeRDP libraries")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
+[assembly: AssemblyCompany("https://github.com/publee/FreeRDP-Sharp/graphs/contributors")]
 [assembly: AssemblyProduct("")]
 [assembly: AssemblyCopyright("FreeRDP")]
 [assembly: AssemblyTrademark("")]
@@ -17,7 +17,7 @@ using System.Runtime.CompilerServices;
 // The form "{Major}.{Minor}.*" will automatically update the build and revision,
 // and "{Major}.{Minor}.{Build}.*" will update just the revision.
 
-[assembly: AssemblyVersion("1.0.*")]
+[assembly: AssemblyVersion("0.1.0.0")]
 
 // The following attributes are used to specify the signing key for the assembly, 
 // if desired. See the Mono documentation for more information about signing.

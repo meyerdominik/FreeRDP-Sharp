@@ -61,7 +61,7 @@ namespace NFreeRDP
 
 		private void Rdp_Terminated(object sender, EventArgs e)
 		{
-			UpdateStatusLabel();
+			Invoke((MethodInvoker)UpdateStatusLabel);
 		}
 
 		private void Rdp_ErrorInfo(object sender, ErrorInfoEventArgs e)
